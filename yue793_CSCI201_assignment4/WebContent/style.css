@@ -1,0 +1,31 @@
+@charset "UTF-8";
+#header {
+	height: 80px;
+	padding-right:40px;
+	padding-left:40px;
+}
+
+#logo{
+	margin-top:20px;
+	float: left;
+	width:140px;
+	heigh:70px;
+}
+#nav {
+	margin-top:10px;
+	margin-bottom:auto;
+	float:right;
+	height: 80px;
+}
+
+#nav a{
+	color:black;
+	font-size: 20px;
+	text-decoration: none;
+	line-height: 65px;
+	width: 130px;
+	text-align: center;
+	display: inline-block;
+	font-szie: 65px;
+}
+

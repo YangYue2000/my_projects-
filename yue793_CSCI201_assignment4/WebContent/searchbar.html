@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script>
+function verify(){
+	var hasError = false;
+	document.getElementById("error").innerHTML = '';
+	if (document.search.restaurant.value.length <= 0||
+			document.search.lat.value.length<=0||
+			document.search.lon.value.length<=0||
+			document.search.sort.value.length<=0) {
+		document.getElementById("error").innerHTML = "missing parameters!try again!";
+		hasError = true;
+	}
+	return !hasError
+}
+</script>
+<style>
+#SearchBar {
+	width: 990px;
+	height: 110px;
+	padding-top: 8px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#search {
+	height: 25px;
+	width: 45px;
+	border: 0px;
+}
+#submit{
+color:red;
+border:0px;
+border-radius:0px;
+}
+#left{
+height:110px;
+width:720px;
+float:left;
+}
+#right{
+height:110px;
+width:260px;
+float:right;
+}
+#left_1{
+height:55px;
+width:720px;
+padding-top:10px;
+}
+#left_2{
+heigh:55px;
+width:720px;
+}
+#right_1{
+heigh:55px;
+width:260px;
+}
+#right_2{
+height:55px;
+width:260px;
+text-align:center;
+}
+input{
+font-size:12.5pt;
+}
+input[type=number]{
+width:340px;}
+</style>
+</head>
+<body>
+<div id="SearchBar">
+		<form name="search" action="search.jsp" onsubmit="return verify()">
+			<div id="left">
+				<div id="left_1">
+					<input type="text" size="60" name="restaurant" placeholder="Restaurant Name">
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="submit" id="submit">
+						<img id="search" alt="submit" src="search.png">
+					</button>
+				</div>
+				<div id="left_2">
+					<input type="number" step="any" name="lat" placeholder="Latitude"
+						min="0" max="90" value="34.02116">&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="number" step="any"
+						name="lon" placeholder="Longtitude" min="-180" max="180" value="-118">
+				</div>
+				<br>
+				<div id="error" style="color: red;"></div>
+			</div>
+			<div id="right">
+				<div id="right_1">
+					<input type="radio" id="match" name="sort" value="best_match"
+						onsubmit="return validate()"> <label for="match">Best
+						Match</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" id="review" name="sort"
+						value="review_count"> <label for="review">Review
+						Count</label> <input type="radio" id="distance" name="sort"
+						value="distance"> <label for="distance">Distance</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+						type="radio" id="rating" name="sort" value="rating"> <label
+						for="rating">Rating</label>
+				</div>
+				<div id="right_2">google map</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="google-signin-client_id"
+	content="474257430904-sduvfushr7il0phsnfdujfbmhb12c6f3.apps.googleusercontent.com">
+<title>Log In Page</title>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script>
+	function onSignIn(googleUser) {
+		 var profile = googleUser.getBasicProfile() 
+		
+		/* var element = document.querySelector('#content')
+		element.innerText = profile.getEmail(); */
+		
+		var xhttp = new XMLHttpRequest();
+		xhttp.open("POST","LogInServlet?email="+profile.getEmail(),true); 
+		/* xhttp.onreadystatechange = function(){
+			if(xhttp.readyState == xhttp.DONE){
+				if(xhttp.status == 200){
+					window.locatoin.assign("home.jsp");
+				}
+			}
+		} */
+		 xhttp.send(); 
+		/* disable auto login */
+		var auth2 = gapi.auth2.getAuthInstance();
+		auth2.disconnect();
+	    document.location.href="home.jsp" 
+	}
+	
+	
+	function validate() {
+		var hasError = false;
+		document.getElementById("enull").innerHTML = '';
+		document.getElementById("unull").innerHTML = '';
+		document.getElementById("pnull").innerHTML = '';
+		document.getElementById("cpnull").innerHTML = '';
+
+		if (document.signup.email.value.length <= 0) {
+			document.getElementById("enull").innerHTML = "Fill in info!";
+			hasError = true;
+		}
+
+		else {
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("GET", "emailValidate?email="
+					+ document.signup.email.value, true);
+			xhttp.send();
+			xhttp.onreadystatechange = function() {
+				document.getElementById("enull").innerHTML = this.responseText;
+				hasError = true;
+			}
+		}
+
+		if (document.signup.name.value.length <= 0) {
+			document.getElementById("unull").innerHTML = "Fill in info!";
+			hasError = true;
+		}
+		else{
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("GET","nameValidate?name="+document.signup.name.value,true);
+			xhttp.send();
+			xhttp.onreadystatechange = function(){
+				document.getElementById("unull").innerHTML = this.responseText;
+				hasError = true;
+			}
+		}
+		if (document.signup.password.value.length > 0
+				&& document.signup.cpassword.value.length > 0) {
+			if (document.signup.password.value != document.signup.cpassword.value) {
+				document.getElementById("cpnull").innerHTML = "Type in the exat same PASSWORD!";
+				hasError = true;
+			}
+		}
+		if (document.signup.password.value.length <= 0) {
+			document.getElementById("pnull").innerHTML = "Fill in info!";
+			hasError = true;
+		}
+		if (document.signup.cpassword.value.length <= 0) {
+			document.getElementById("cpnull").innerHTML = "Fill in info!";
+			hasError = true;
+		}
+		return !hasError
+	}
+	function check(){
+		var hasError = false;
+		
+		document.getElementById("login_e").innerHTML = '';
+		document.getElementById("login_p").innerHTML = '';
+
+		if (document.SignIn.email.value.length <= 0) {
+			document.getElementById("login_e").innerHTML = "Fill in info!";
+			hasError = true;
+		}
+		if(document.SignIn.password.value.length<=0){
+			document.getElementById("login_p").innerHTML = "FIll in info";
+			hasError= true;
+		}
+		if(document.SignIn.email.value.length>0&&document.SignIn.password.value.length>0){
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("GET", "SignInValidate?email="
+					+ document.SignIn.email.value+"&&password="+document.SignIn.password.value, false);
+			xhttp.onreadystatechange = function() {
+				document.getElementById("login_e").innerHTML = this.responseText;
+				document.getElementById("login_p").innerHTML = this.responseText;
+				if(document.getElementById("login_e").innerHTML != ''){
+					hasError = true;
+				}
+			}
+			xhttp.send();
+		}
+		
+		return !hasError;
+	}
+</script>
+<link rel="stylesheet" type="text/css" href="style.css">
+<style>
+#wrapper {
+	margin-left: auto;
+	margin-right: auto;
+	width: 950px;
+	height: 600px;
+	line-height: 30px;
+/* 	background-color:blue;  */
+}
+
+#left {
+	/* padding-left: 50px;
+	padding-right: 50px; */
+	width : 475px;
+	height: 600px;
+/* 	background-color: red; */
+	float: left;
+}
+
+#right {
+padding-left:0px;
+	width:475px;
+	height:600px;
+	float: right;
+	/* background-color: green; */
+}
+
+h2 {
+	margin-left: auto;
+	margin-right: auto;
+}
+</style>
+</head>
+<body>
+	<div id="header">
+		<img id="logo" src="logo.png">
+		<div id="nav">
+			<a href="home.jsp">Home</a> <a href="login.html">Login / Sign Up</a>
+		</div>
+	</div>
+	<div id="wrapper">
+		<div id="left">
+			<h2>Login</h2>
+			<form name="SignIn" method="POST" action="LogInServlet" onsubmit="return check()">
+				<label for="e">Username</label><br> 
+				<input type="email" id="e" name="email" size="45"/><br>
+				<strong><div id="login_e" class="error"></div></strong><br>
+				<label for="p">Password</label><br> 
+				<input type="password" id="p" name="password" size="45"/><br> 
+				<strong><div id="login_p" class="error"></div></strong><br>
+				<input type="submit" name="submit" value="Submit" /><br>
+			</form>
+			<div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+		</div>
+		<div id="right">
+			<h2>Sign Up</h2>
+			<form name="signup" method="POST" action="SignUp" onsubmit="return validate()">
+				<label for="E">Email</label><br> 
+				<input type="email" id="E" name="email" size="45" /><br>
+				<strong><div id="enull" class="error"></div></strong><br>
+				<label for="n">Username</label><br>
+				<input type="text" id="n" name="name" size="45"/><br> 
+				<strong><div id="unull" class="error"></div></strong><br>
+				<label for="P">Password</label><br> 
+				<input type="password" id="P" name="password" size="45"/><br> 
+				<strong><div id="pnull" class="error"></div></strong><br>
+				<label for="c">Confirm Password</label><br>
+				<input type="password" id="c" name="cpassword" size="45"/><br>
+				<strong><div id="cpnull" class="error"></div></strong><br>
+				<input type="radio" id="r" >
+				<label for="r">I have read and agree to all terms and conditions of SalEats</label><br>
+				<input type="submit" name="submit" value="Submit" /><br>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

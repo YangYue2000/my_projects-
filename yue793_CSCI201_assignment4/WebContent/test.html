@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="google-signin-client_id" content="474257430904-sduvfushr7il0phsnfdujfbmhb12c6f3.apps.googleusercontent.com">
+<title>Insert title here</title>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+</head>
+<body>
+<div class="g-signin2" data-onsuccess="onSignIn"></div>
+<div id="content"></div>
+<!-- <button onclick="signOut">Sign Out</button> -->
+</body>
+<script>
+function onSignIn(googleUser){
+	var profile = googleUser.getBasicProfile()
+	var element = document.querySelector('#content')
+	element.innerText = profile.getEmail();
+	/* HttpSession session = request.getSession(true); */
+	document.location.href="home.jsp"
+}
+function signOut() {
+	gapi.auth2.getAuthInstance().signOut().then(function(){
+		console.log('user signed out');
+	})
+}
+</script>
+</html>
