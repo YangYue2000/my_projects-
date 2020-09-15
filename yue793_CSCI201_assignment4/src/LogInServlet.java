@@ -40,36 +40,36 @@ public class LogInServlet extends HttpServlet {
 				java.sql.Statement st = null;
 				ResultSet rs = null;
 				boolean existed_account = false;
-//				try {
-//					DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
-//					conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hw4?serverTimezone=UTC&user=root&password=Dan15110278550.");
-//					st = conn.createStatement();
-//					rs=st.executeQuery(buffer);
-//					while(rs.next()) {
-//						if(email.contentEquals(rs.getString("email"))) {
-//							existed_account = true;
-//							System.out.println("google duplicates existing account!");
-//							break;
-//						}
-//					}
-//					if(!existed_account) {
-//						st.executeUpdate("INSERT INTO saluser (uname,email,upassword) VALUES('google_user','"+email+"','')");
-//					}
-//				} catch ( SQLException e) {
-//					e.printStackTrace();
-//				}finally {
-//					try {
-//						if (st != null) {
-//							st.close(); 
-//						}
-//						if (conn != null){
-//							conn.close(); 
-//						}
-//					}
-//					catch (SQLException sqle){ 
-//						System.out.println(sqle.getMessage());
-//					} 
-//				}
+				try {
+					DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+					conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hw4?serverTimezone=UTC&user=root&password=Dan15110278550.");
+					st = conn.createStatement();
+					rs=st.executeQuery(buffer);
+					while(rs.next()) {
+						if(email.contentEquals(rs.getString("email"))) {
+							existed_account = true;
+							System.out.println("google duplicates existing account!");
+							break;
+						}
+					}
+					if(!existed_account) {
+						st.executeUpdate("INSERT INTO saluser (uname,email,upassword) VALUES('google_user','"+email+"','')");
+					}
+				} catch ( SQLException e) {
+					e.printStackTrace();
+				}finally {
+					try {
+						if (st != null) {
+							st.close(); 
+						}
+						if (conn != null){
+							conn.close(); 
+						}
+					}
+					catch (SQLException sqle){ 
+						System.out.println(sqle.getMessage());
+					} 
+				}
 			}
 			HttpSession session = request.getSession(true);
 			session.setAttribute("email", email);
